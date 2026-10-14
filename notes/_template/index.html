@@ -9,6 +9,8 @@
       - canonical / og:url の SLUG を記事フォルダ名に（例: /notes/2026-11-my-note/）
       - og:image：記事用の 1200×630 の画像（なければ og-notes.jpg のままで可）
       - article:published_time と JSON-LD の日付・見出し・画像
+      - ヘッダー画像・本文図版の href（拡大する画像ファイル）と alt・キャプション
+      - 前後の記事リンク（実在する記事だけ残し、無い側の a は削除）
       - 公開する記事では次の noindex の行を削除
   -->
   <meta name="robots" content="noindex, follow" />
@@ -96,12 +98,18 @@
       ▼ 記事冒頭の画像（ヘッダー画像）
       - 画像は /assets/img/ に置き、横長（目安：幅 900〜1600px）の JPEG/WebP にします。
       - alt には画像の内容を日本語で簡潔に書きます。
+      - a.zoomable の href は、拡大表示する画像ファイルにします（クリックで拡大。スクリプトが無いときはその画像を開きます）。
       - figcaption に作品名と、.credit に作者・年代・所蔵/出典・ライセンスを書きます。
       - 使った画像は /assets/img/CREDITS.md と /credits/index.html にも追記してください。
       - 画像を使わない場合は <figure> ごと削除します。
     -->
     <figure class="article-header-figure framed">
-      <img src="/assets/img/placeholder.svg" width="1200" height="630" alt="【画像の内容の説明】" />
+      <a class="zoomable" href="/assets/img/placeholder.svg">
+        <span class="figure-media">
+          <img src="/assets/img/placeholder.svg" width="1200" height="630" alt="【画像の内容の説明】" />
+        </span>
+        <span class="see-cue">拡大して見る →</span>
+      </a>
       <figcaption>【作品名】<span class="credit">【作者】、【年代】／【所蔵・出典】（【ライセンス】）</span></figcaption>
     </figure>
 
@@ -118,7 +126,12 @@
           本文中の画像には loading="lazy" を付けてください。
       -->
       <figure class="framed">
-        <img src="/assets/img/placeholder.svg" width="1200" height="630" loading="lazy" decoding="async" alt="【画像の内容の説明】" />
+        <a class="zoomable" href="/assets/img/placeholder.svg">
+          <span class="figure-media">
+            <img src="/assets/img/placeholder.svg" width="1200" height="630" loading="lazy" decoding="async" alt="【画像の内容の説明】" />
+          </span>
+          <span class="see-cue">拡大して見る →</span>
+        </a>
         <figcaption>【図版の説明】<span class="credit">【作者】、【年代】／【出典】（【ライセンス】）</span></figcaption>
       </figure>
 
@@ -133,13 +146,30 @@
       </ul>
     </article>
 
-    <p class="back-link"><a href="/notes/">&larr; 研究ノート一覧へ</a></p>
+    <!--
+      ▼ 記事の移動
+      - 「研究ノート一覧へ」はそのまま残します。
+      - 前の記事・次の記事は、実在する記事があるときだけ残し、href とタイトルをその記事に書き換えます。
+      - 無い側の <a class="pager-prev"> または <a class="pager-next"> は削除してください。存在しない URL は書かないでください。
+    -->
+    <nav class="article-nav" aria-label="記事の移動">
+      <a class="pager-prev" href="/notes/OLDER-SLUG/" rel="prev">
+        <span class="pager-kicker">← 前の記事</span>
+        <span class="pager-title">【前の記事のタイトル】</span>
+      </a>
+      <p class="back-link"><a href="/notes/">← 研究ノート一覧へ</a></p>
+      <a class="pager-next" href="/notes/NEWER-SLUG/" rel="next">
+        <span class="pager-kicker">次の記事 →</span>
+        <span class="pager-title">【次の記事のタイトル】</span>
+      </a>
+    </nav>
   </main>
 
   <footer class="footer">
     © Emilia — Jane Austen's Window
     <span class="credits-link"><a href="/credits/">画像について</a></span>
   </footer>
+  <script src="/assets/lightbox.js"></script>
 
 </body>
 </html>

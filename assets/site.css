@@ -100,6 +100,7 @@ a { color: var(--navy); }
   content: "";
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background:
     radial-gradient(ellipse at center, rgba(247,244,238,0.55) 0%, rgba(247,244,238,0.30) 55%, rgba(247,244,238,0.08) 100%),
     linear-gradient(180deg, rgba(247,244,238,0.10) 0%, rgba(247,244,238,0) 65%, rgba(247,244,238,0.45) 100%);
@@ -118,7 +119,7 @@ a { color: var(--navy); }
 .hero-panel .sub { color: #5a5446; }
 .hero-credit {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   right: 0.8rem;
   bottom: 0.5rem;
   font-family: var(--sans);
@@ -217,10 +218,28 @@ figcaption .credit, .caption .credit {
   border: 1px solid var(--rule-2);
   display: flex;
   flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-link {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.card-body { display: flex; flex-direction: column; flex: 1; }
+.card:hover, .card:focus-within {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 26px -16px rgba(26, 58, 74, 0.55);
+}
+.card-link:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
 }
 .card-img { aspect-ratio: 4 / 5; overflow: hidden; border-bottom: 1px solid var(--rule-2); background: var(--paper-2); }
 .card-img img { width: 100%; height: 100%; object-fit: cover; object-position: center 25%; transition: transform 0.6s ease; }
-.card:hover .card-img img { transform: scale(1.03); }
+.card:hover .card-img img, .card:focus-within .card-img img { transform: scale(1.04); }
 .card-body { padding: 1.2rem 1.3rem 1.4rem; }
 .card-kicker {
   font-family: var(--sans);
@@ -232,6 +251,7 @@ figcaption .credit, .caption .credit {
 .card h3 { font-size: 1.15rem; color: var(--navy); margin: 0.1rem 0 0.4rem; letter-spacing: 0.05em; }
 .card p { font-size: 0.9rem; color: #555; line-height: 1.7; }
 .card .caption { margin-top: 0.8rem; padding-top: 0.6rem; border-top: 1px dotted var(--rule-2); }
+.card .see-cue { display: inline-block; margin-top: auto; padding-top: 0.85rem; }
 
 /* ---------- トップ：横長の図版帯 ---------- */
 .band { margin: 0 auto 3.5rem; max-width: 1040px; }
@@ -266,8 +286,11 @@ figcaption .credit, .caption .credit {
   padding: 1.8rem 0;
 }
 .note-item:first-child { border-top: 1px solid var(--rule); }
-.note-thumb { display: block; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--rule-2); background: var(--cream); padding: 4px; }
-.note-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.note-item:hover, .note-item:focus-within { background: var(--cream); }
+.note-thumb { display: block; aspect-ratio: 4 / 3; overflow: hidden; border: 1px solid var(--rule-2); background: var(--cream); padding: 4px; cursor: pointer; text-decoration: none; }
+.note-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.45s ease; }
+.note-thumb:hover img, .note-thumb:focus-visible img { transform: scale(1.04); }
+.note-thumb:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
 .note-item time {
   display: block;
   font-family: var(--sans);
@@ -276,8 +299,9 @@ figcaption .credit, .caption .credit {
   color: var(--muted-2);
 }
 .note-item h2 { font-size: 1.3rem; font-weight: 700; line-height: 1.5; margin: 0.25rem 0 0.5rem; }
-.note-item h2 a { text-decoration: none; color: var(--navy); }
+.note-item h2 a { text-decoration: none; color: var(--navy); cursor: pointer; }
 .note-item h2 a:hover, .note-item h2 a:focus { text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 4px; }
+.note-item h2 a:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
 .note-item p { font-size: 0.95rem; color: #555; }
 .note-item .more {
   display: inline-block;
@@ -383,6 +407,201 @@ figcaption .credit, .caption .credit {
 .credits-list dd { word-break: break-word; }
 .credits-list h2 { font-size: 1rem; color: var(--navy); margin-bottom: 0.3rem; line-height: 1.5; }
 
+/* ---------- クリックできる図版・ヒーロー ---------- */
+.see-cue {
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  letter-spacing: 0.06em;
+  color: var(--navy);
+}
+.hero-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 1;
+}
+.hero-link .hero-media img { transition: transform 0.7s ease; }
+.hero-panel { transition: transform 0.25s ease; }
+.hero-link:hover .hero-media img,
+.hero-link:focus-visible .hero-media img { transform: scale(1.03); }
+.hero-link:hover .hero-panel,
+.hero-link:focus-visible .hero-panel { transform: translateY(-3px); }
+.hero-link:focus-visible { outline: none; }
+.hero-link:focus-visible .hero-panel { box-shadow: 0 0 0 2px var(--navy); }
+.hero-panel .see-cue {
+  display: inline-block;
+  margin-top: 0.85rem;
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+}
+.figure-link {
+  display: block;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+.figure-media, .figure-media picture { display: block; }
+.figure-media { overflow: hidden; }
+.framed .figure-media, .framed .zoomable .figure-media {
+  border: 1px solid var(--rule-2);
+  box-shadow: 0 1px 0 #fff inset, 0 8px 22px -14px rgba(26, 58, 74, 0.45);
+  background: var(--cream);
+  padding: 6px;
+}
+.framed .figure-media img {
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  width: 100%;
+  transition: transform 0.45s ease;
+}
+.figure-link:hover .figure-media img,
+.figure-link:focus-visible .figure-media img { transform: scale(1.04); }
+.figure-link:hover, .figure-link:focus-visible { transform: translateY(-3px); }
+.figure-link:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.about-grid .see-cue { display: inline-block; margin-top: 0.45rem; }
+.band .see-cue {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  margin: 0;
+  background: rgba(251, 249, 244, 0.92);
+  border: 1px solid var(--gold);
+  padding: 0.12rem 0.55rem;
+}
+.hero-link:hover .see-cue, .hero-link:focus-visible .see-cue,
+.figure-link:hover .see-cue, .figure-link:focus-visible .see-cue,
+.card-link:hover .see-cue, .card-link:focus-visible .see-cue,
+.zoomable:hover .see-cue, .zoomable:focus-visible .see-cue {
+  text-decoration: underline;
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+}
+
+/* ---------- 記事画像の拡大表示 ---------- */
+.zoomable {
+  position: relative;
+  display: block;
+  color: inherit;
+  text-decoration: none;
+  cursor: zoom-in;
+}
+.zoomable:focus-visible { outline: 2px solid var(--navy); outline-offset: 3px; }
+.zoomable:hover .figure-media img,
+.zoomable:focus-visible .figure-media img { transform: scale(1.03); }
+.zoomable .see-cue {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  background: rgba(251, 249, 244, 0.92);
+  border: 1px solid var(--gold);
+  padding: 0.12rem 0.55rem;
+  font-size: 0.72rem;
+  pointer-events: none;
+}
+body.lightbox-open { overflow: hidden; }
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3.4rem 1.2rem 1.6rem;
+  background: rgba(26, 42, 58, 0.9);
+  cursor: zoom-out;
+}
+.lightbox[hidden] { display: none; }
+.lightbox-figure { max-width: min(1100px, 100%); margin: 0; cursor: zoom-out; }
+.lightbox-img {
+  max-width: 100%;
+  max-height: calc(100vh - 8rem);
+  width: auto;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  background: var(--cream);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  cursor: zoom-out;
+}
+.lightbox figcaption { color: #f7f4ee; text-align: center; margin-top: 0.7rem; }
+.lightbox-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1px solid var(--gold);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+}
+.lightbox-close:hover, .lightbox-close:focus-visible { background: #efe9dc; }
+.lightbox-close:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+/* ---------- 記事の前後移動 ---------- */
+.article-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: center;
+  gap: 0.8rem 1rem;
+  margin-top: 3rem;
+}
+.article-nav .back-link { flex: 1 0 100%; margin: 0 0 0.2rem; order: -1; }
+.pager-prev, .pager-next {
+  flex: 1 1 calc(50% - 0.5rem);
+  min-width: 9rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.15rem;
+  text-decoration: none;
+  color: var(--navy);
+  background: var(--cream);
+  border: 1px solid var(--rule-2);
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.pager-next { text-align: right; align-items: flex-end; }
+.pager-prev:hover, .pager-next:hover,
+.pager-prev:focus-visible, .pager-next:focus-visible {
+  background: #efe9dc;
+  transform: translateY(-2px);
+}
+.pager-prev:focus-visible, .pager-next:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 3px;
+}
+.pager-kicker {
+  font-family: var(--sans);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.pager-title { font-size: 0.95rem; line-height: 1.45; }
+
+.credits-list li:target {
+  background: #fbf6ea;
+  outline: 1px solid var(--gold);
+  scroll-margin-top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .card-img img, .hero-link .hero-media img, .hero-panel,
+  .figure-media img, .note-thumb img, .figure-link, .pager-prev, .pager-next {
+    transition: none;
+  }
+}
+
 /* ---------- スマートフォン ---------- */
 @media (max-width: 760px) {
   .cards { grid-template-columns: 1fr; gap: 1.4rem; max-width: 420px; margin-left: auto; margin-right: auto; }
@@ -406,6 +625,8 @@ figcaption .credit, .caption .credit {
   .article-body p { text-align: left; }
   .article-body figure.float-right { float: none; width: auto; max-width: 280px; margin: 1.6rem auto; }
   .article-header-figure img { aspect-ratio: 4 / 3; }
+  .pager-prev, .pager-next { flex-basis: 100%; text-align: left; align-items: flex-start; }
+  .hero-panel .see-cue { font-size: 0.75rem; }
   .label { margin-left: 0.3em; }
   .credits-list li { grid-template-columns: 64px 1fr; }
   .credits-list img { width: 64px; height: 64px; }
