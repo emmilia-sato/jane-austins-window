@@ -5,86 +5,197 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="google-site-verification" content="xGAwkhV1ob1bJcfaBiIrA6Kj3ZLJFBhFjrXbIPzJarM" />
   <meta name="msvalidate.01" content="890E3958A954E28F83073411686530C4" />
-  <title>リージェンシー時代の文学と文化 — Emilia</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Georgia', 'Hiragino Mincho ProN', 'Yu Mincho', serif;
-      background: #f7f4ee;
-      color: #2b2b2b;
-      line-height: 1.8;
+  <title>リージェンシー時代の文学と文化 — Emilia | Jane Austen's Window</title>
+  <meta name="description" content="ジェイン・オースティンをはじめとする18世紀英国文学と、リージェンシー時代の文化・社会背景に関する研究書籍・関連文化資料のデジタル出版と、研究成果の発信を行っています。" />
+  <link rel="canonical" href="https://emmilia-sato.vercel.app/" />
+  <meta name="author" content="Emilia" />
+  <meta name="theme-color" content="#f7f4ee" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="リージェンシー時代の文学と文化 — Emilia" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:title" content="リージェンシー時代の文学と文化 — Emilia | Jane Austen's Window" />
+  <meta property="og:description" content="ジェイン・オースティンをはじめとする18世紀英国文学と、リージェンシー時代の文化・社会背景に関する研究書籍・関連文化資料のデジタル出版と、研究成果の発信を行っています。" />
+  <meta property="og:url" content="https://emmilia-sato.vercel.app/" />
+  <meta property="og:image" content="https://emmilia-sato.vercel.app/assets/img/og-top.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="トマス・マルトンによるバースのロイヤル・クレセントの水彩画（1780年頃）" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="リージェンシー時代の文学と文化 — Emilia | Jane Austen's Window" />
+  <meta name="twitter:description" content="ジェイン・オースティンをはじめとする18世紀英国文学と、リージェンシー時代の文化・社会背景に関する研究書籍・関連文化資料のデジタル出版と、研究成果の発信を行っています。" />
+  <meta name="twitter:image" content="https://emmilia-sato.vercel.app/assets/img/og-top.jpg" />
+  <meta name="twitter:image:alt" content="トマス・マルトンによるバースのロイヤル・クレセントの水彩画（1780年頃）" />
+
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <link rel="preload" as="image" href="/assets/img/hero-royal-crescent.webp" imagesrcset="/assets/img/hero-royal-crescent-800.webp 800w, /assets/img/hero-royal-crescent.webp 1600w" imagesizes="100vw" type="image/webp" fetchpriority="high" />
+  <link rel="stylesheet" href="/assets/site.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://emmilia-sato.vercel.app/#website",
+      "url": "https://emmilia-sato.vercel.app/",
+      "name": "リージェンシー時代の文学と文化 — Emilia",
+      "alternateName": "Jane Austen's Window",
+      "inLanguage": "ja",
+      "publisher": {
+        "@id": "https://emmilia-sato.vercel.app/#person"
+      }
+    },
+    {
+      "@type": "Person",
+      "@id": "https://emmilia-sato.vercel.app/#person",
+      "name": "Emilia",
+      "url": "https://emmilia-sato.vercel.app/",
+      "description": "18世紀英国文学（ジェイン・オースティン等）およびリージェンシー時代の文化に関する研究・デジタル出版",
+      "knowsAbout": [
+        "ジェイン・オースティン",
+        "18世紀英国文学",
+        "リージェンシー時代"
+      ],
+      "subjectOf": {
+        "@id": "https://emmilia-sato.vercel.app/#book-austen-method"
+      }
+    },
+    {
+      "@type": "Book",
+      "@id": "https://emmilia-sato.vercel.app/#book-austen-method",
+      "name": "ジェイン・オースティンの手法について―風景描写を中心に―",
+      "author": {
+        "@id": "https://emmilia-sato.vercel.app/#person"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ブイツーソリューション"
+      },
+      "isbn": "978-4-434-04318-5",
+      "inLanguage": "ja"
     }
-    .hero {
-      background: linear-gradient(180deg, #efefe9 0%, #f7f4ee 100%);
-      border-bottom: 1px solid #d8d2c4;
-      text-align: center;
-      padding: 4rem 1.5rem 3rem;
-    }
-    .hero h1 {
-      font-size: 2.4rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      color: #1a3a4a;
-      margin-bottom: 0.35rem;
-    }
-    .hero .sub {
-      font-size: 1rem;
-      color: #6b6456;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-family: 'Helvetica Neue', 'Arial', sans-serif;
-    }
-    .main {
-      max-width: 720px;
-      margin: 0 auto;
-      padding: 3.5rem 1.5rem 5rem;
-      text-align: center;
-    }
-    .summary {
-      font-size: 1.3rem;
-      color: #3a3a3a;
-      margin-bottom: 2.4rem;
-      padding: 0 0.5rem;
-    }
-    .about {
-      text-align: left;
-      max-width: 560px;
-      margin: 0 auto 2rem;
-      font-size: 1rem;
-      color: #555;
-    }
-    .about p { margin-bottom: 1rem; }
-    .footer {
-      text-align: center;
-      font-size: 0.8rem;
-      color: #999;
-      padding: 2rem 1rem;
-      border-top: 1px solid #e2ddd2;
-      margin-top: 2rem;
-    }
-  </style>
+  ]
+}
+  </script>
 </head>
 <body>
 
-  <header class="hero">
-    <p class="sub">Jane Austen's Window</p>
-    <h1>リージェンシー時代の文学と文化</h1>
+  <nav class="site-nav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="/" aria-current="page">トップ</a></li>
+      <li><a href="/notes/">研究ノート</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero has-image">
+    <picture class="hero-media">
+      <source type="image/webp" srcset="/assets/img/hero-royal-crescent-800.webp 800w, /assets/img/hero-royal-crescent.webp 1600w" sizes="100vw" />
+      <img src="/assets/img/hero-royal-crescent.jpg" srcset="/assets/img/hero-royal-crescent-800.jpg 800w, /assets/img/hero-royal-crescent.jpg 1600w" sizes="100vw" width="1600" height="1113" fetchpriority="high"
+           alt="トマス・マルトンによるバースのロイヤル・クレセントの水彩画（1780年頃）。弧を描く石造りの建物の前の芝地に、馬や散策する人々が描かれている。" />
+    </picture>
+    <div class="hero-panel">
+      <p class="sub">Jane Austen's Window</p>
+      <h1><span class="nowrap">リージェンシー時代の</span><span class="nowrap">文学と文化</span></h1>
+    </div>
+    <p class="hero-credit">図版：トマス・マルトン《バース、ロイヤル・クレセント》1780年頃（パブリックドメイン）</p>
   </header>
 
-  <main class="main">
+  <main class="main wide">
     <p class="summary">
       18世紀英国文学（ジェイン・オースティン等）に関する専門的な研究書籍および関連文化資料のデジタル出版・販売、ならびにオンラインでの研究成果の発信を行っています。
     </p>
 
-    <section class="about">
-      <p>当サイトでは、18世紀末から19世紀初頭の英国文学、とくにジェイン・オースティンおよびリージェンシー時代を取り巻く文化・社会背景に関する研究成果をまとめ、デジタル資料として公開しています。</p>
-      <p>専門的な研究書・注釈付き資料・関連文化コンテンツをデジタル出版として提供するとともに、オンライン上で研究知見を発信し、より多くの方にこの時代の文学と文化を楽しんでいただくことを目指しています。</p>
-    </section>
+    <div class="about-grid">
+      <figure class="framed">
+        <picture>
+          <source type="image/webp" srcset="/assets/img/portrait-jane-austen-1870.webp" />
+          <img src="/assets/img/portrait-jane-austen-1870.jpg" width="600" height="887" loading="lazy" decoding="async"
+               alt="ジェイン・オースティンの肖像版画。楕円の枠の中で、フリルのついた室内帽をかぶり椅子に腰掛ける女性。下に「JANE AUSTEN」の文字。" />
+        </picture>
+        <figcaption>ジェイン・オースティンの肖像<span class="credit">J・E・オースティン＝リー『ジェイン・オースティンの思い出』（1870年）口絵。カサンドラ・オースティンのスケッチに基づくジェイムズ・アンドルーズの水彩画より、W・H・リザーズ彫版</span></figcaption>
+      </figure>
 
-    <div class="footer">
-      © Emilia — Jane Austen's Window
+      <section class="about">
+        <p>当サイトでは、18世紀末から19世紀初頭の英国文学、とくにジェイン・オースティンおよびリージェンシー時代を取り巻く文化・社会背景に関する研究成果をまとめ、デジタル資料として公開しています。</p>
+        <p>専門的な研究書・注釈付き資料・関連文化コンテンツをデジタル出版として提供するとともに、オンライン上で研究知見を発信し、より多くの方にこの時代の文学と文化を楽しんでいただくことを目指しています。</p>
+      </section>
+    </div>
+
+    <p class="ornament" aria-hidden="true">❦ ❦ ❦</p>
+    <h2 class="section-title">主なテーマ</h2>
+    <p class="section-sub">Themes</p>
+
+    <div class="cards">
+      <article class="card">
+        <div class="card-img">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/card-pp-title-page.webp" />
+            <img src="/assets/img/card-pp-title-page.jpg" width="800" height="1292" loading="lazy" decoding="async"
+                 alt="『高慢と偏見』初版（1813年）第1巻の扉。「PRIDE AND PREJUDICE: A NOVEL. IN THREE VOLUMES.」と印刷されている。" />
+          </picture>
+        </div>
+        <div class="card-body">
+          <p class="card-kicker">Literature</p>
+          <h3>文学</h3>
+          <p>18世紀末から19世紀初頭の英国文学、とくにジェイン・オースティン。</p>
+          <p class="caption">『高慢と偏見』初版 第1巻 扉（1813年）</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/card-ackermann-1810.webp" />
+            <img src="/assets/img/card-ackermann-1810.jpg" width="800" height="1239" loading="lazy" decoding="async"
+                 alt="『アッカーマンズ・レポジトリー』1810年9月号のファッション・プレート「Full Dress」。ハイウエストのドレスを着た女性と二人の子ども。" />
+          </picture>
+        </div>
+        <div class="card-body">
+          <p class="card-kicker">Manners &amp; Society</p>
+          <h3>暮らしと風俗</h3>
+          <p>リージェンシー時代を取り巻く文化・社会背景。</p>
+          <p class="caption">『アッカーマンズ・レポジトリー』1810年9月号より「Full Dress」</p>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <picture>
+            <source type="image/webp" srcset="/assets/img/card-thomson-dancing.webp" />
+            <img src="/assets/img/card-thomson-dancing.jpg" width="800" height="931" loading="lazy" decoding="async"
+                 alt="ヒュー・トムソンによる『高慢と偏見』（1894年版）の挿絵の原画。舞踏会で紳士たちと若い女性たちが言葉を交わしている。" />
+          </picture>
+        </div>
+        <div class="card-body">
+          <p class="card-kicker">Digital Editions</p>
+          <h3>デジタル資料</h3>
+          <p>研究書・注釈付き資料・関連文化コンテンツのデジタル出版。</p>
+          <p class="caption">ヒュー・トムソン画『高慢と偏見』挿絵（1894年）</p>
+        </div>
+      </article>
+    </div>
+
+    <figure class="band framed">
+      <picture>
+        <source type="image/webp" srcset="/assets/img/band-pump-room-800.webp 800w, /assets/img/band-pump-room.webp 1600w" sizes="(max-width: 1100px) 100vw, 1040px" />
+        <img src="/assets/img/band-pump-room.jpg" srcset="/assets/img/band-pump-room-800.jpg 800w, /assets/img/band-pump-room.jpg 1600w" sizes="(max-width: 1100px) 100vw, 1040px" width="1600" height="1000" loading="lazy" decoding="async"
+             alt="トマス・ロウランドソンの水彩画《バースの慰み：パンプ・ルーム》（1798年）。広間に大勢の人々が集い、語らう様子。" />
+      </picture>
+      <figcaption>トマス・ロウランドソン《バースの慰み：パンプ・ルーム》1798年<span class="credit">イェール大学英国美術研究センター所蔵（パブリックドメイン）</span></figcaption>
+    </figure>
+
+    <div class="notes-link">
+      <a href="/notes/">研究ノートを読む &rarr;</a>
     </div>
   </main>
+
+  <footer class="footer">
+    © Emilia — Jane Austen's Window
+    <span class="credits-link"><a href="/credits/">画像について</a></span>
+  </footer>
 
 </body>
 </html>
