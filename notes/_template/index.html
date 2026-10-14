@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!--
+    ▼ このテンプレートで書き換える箇所（すべて「【 】」または SLUG / YYYY-MM-DD で示しています）
+      - <title>・description・og:title・og:description・twitter:*（同じ内容）
+      - canonical / og:url の SLUG を記事フォルダ名に（例: /notes/2026-11-my-note/）
+      - og:image：記事用の 1200×630 の画像（なければ og-notes.jpg のままで可）
+      - article:published_time と JSON-LD の日付・見出し・画像
+      - 公開する記事では次の noindex の行を削除
+  -->
+  <meta name="robots" content="noindex, follow" />
+  <title>【記事タイトル】 — 研究ノート — Emilia</title>
+  <meta name="description" content="【記事の短い説明（80〜120字程度）】" />
+  <link rel="canonical" href="https://emmilia-sato.vercel.app/notes/SLUG/" />
+  <meta name="author" content="Emilia" />
+  <meta name="theme-color" content="#f7f4ee" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="リージェンシー時代の文学と文化 — Emilia" />
+  <meta property="og:locale" content="ja_JP" />
+  <meta property="og:title" content="【記事タイトル】 — 研究ノート — Emilia" />
+  <meta property="og:description" content="【記事の短い説明（80〜120字程度）】" />
+  <meta property="og:url" content="https://emmilia-sato.vercel.app/notes/SLUG/" />
+  <meta property="og:image" content="https://emmilia-sato.vercel.app/assets/img/og-notes.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="【OG画像の説明】" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="【記事タイトル】 — 研究ノート — Emilia" />
+  <meta name="twitter:description" content="【記事の短い説明（80〜120字程度）】" />
+  <meta name="twitter:image" content="https://emmilia-sato.vercel.app/assets/img/og-notes.jpg" />
+  <meta name="twitter:image:alt" content="【OG画像の説明】" />
+
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta property="article:published_time" content="YYYY-MM-DD" />
+  <link rel="stylesheet" href="/assets/site.css" />
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "https://emmilia-sato.vercel.app/notes/SLUG/#article",
+  "mainEntityOfPage": "https://emmilia-sato.vercel.app/notes/SLUG/",
+  "url": "https://emmilia-sato.vercel.app/notes/SLUG/",
+  "headline": "【記事タイトル】",
+  "description": "【記事の短い説明】",
+  "datePublished": "YYYY-MM-DD",
+  "dateModified": "YYYY-MM-DD",
+  "inLanguage": "ja",
+  "image": "https://emmilia-sato.vercel.app/assets/img/og-notes.jpg",
+  "author": {
+    "@type": "Person",
+    "@id": "https://emmilia-sato.vercel.app/#person",
+    "name": "Emilia",
+    "url": "https://emmilia-sato.vercel.app/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "@id": "https://emmilia-sato.vercel.app/#person",
+    "name": "Emilia",
+    "url": "https://emmilia-sato.vercel.app/"
+  },
+  "isPartOf": {
+    "@type": "Blog",
+    "@id": "https://emmilia-sato.vercel.app/notes/#blog",
+    "url": "https://emmilia-sato.vercel.app/notes/"
+  }
+}
+  </script>
+</head>
+<body>
+
+  <nav class="site-nav" aria-label="サイト内ナビゲーション">
+    <ul>
+      <li><a href="/">トップ</a></li>
+      <li><a href="/notes/" aria-current="page">研究ノート</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <p class="sub">Research Notes</p>
+    <!-- ▼ 記事タイトル -->
+    <h1>【記事タイトル】</h1>
+    <!-- ▼ 公開日（datetime は YYYY-MM-DD 形式） -->
+    <p class="article-meta"><time datetime="YYYY-MM-DD">YYYY年M月D日</time></p>
+  </header>
+
+  <main class="main wide">
+
+    <!--
+      ▼ 記事冒頭の画像（ヘッダー画像）
+      - 画像は /assets/img/ に置き、横長（目安：幅 900〜1600px）の JPEG/WebP にします。
+      - alt には画像の内容を日本語で簡潔に書きます。
+      - figcaption に作品名と、.credit に作者・年代・所蔵/出典・ライセンスを書きます。
+      - 使った画像は /assets/img/CREDITS.md と /credits/index.html にも追記してください。
+      - 画像を使わない場合は <figure> ごと削除します。
+    -->
+    <figure class="article-header-figure framed">
+      <img src="/assets/img/placeholder.svg" width="1200" height="630" alt="【画像の内容の説明】" />
+      <figcaption>【作品名】<span class="credit">【作者】、【年代】／【所蔵・出典】（【ライセンス】）</span></figcaption>
+    </figure>
+
+    <article class="article-body">
+      <!-- ▼ 本文。段落は <p>、小見出しは <h2>/<h3>、引用は <blockquote> を使います -->
+      <p>【本文の段落】</p>
+
+      <h2>【小見出し】</h2>
+      <p>【本文の段落】</p>
+
+      <!--
+        ▼ 本文中の図版（中央配置）。右寄せにしたい場合は class="framed float-right" にします
+          （スマートフォンでは自動的に中央配置になります）。
+          本文中の画像には loading="lazy" を付けてください。
+      -->
+      <figure class="framed">
+        <img src="/assets/img/placeholder.svg" width="1200" height="630" loading="lazy" decoding="async" alt="【画像の内容の説明】" />
+        <figcaption>【図版の説明】<span class="credit">【作者】、【年代】／【出典】（【ライセンス】）</span></figcaption>
+      </figure>
+
+      <blockquote>
+        <p>【引用文（出典を必ず明記）】</p>
+      </blockquote>
+
+      <!-- ▼ 参考文献（不要なら h2 ごと削除） -->
+      <h2>参考文献</h2>
+      <ul class="references">
+        <li>【著者名『書名』出版社、出版年。】</li>
+      </ul>
+    </article>
+
+    <p class="back-link"><a href="/notes/">&larr; 研究ノート一覧へ</a></p>
+  </main>
+
+  <footer class="footer">
+    © Emilia — Jane Austen's Window
+    <span class="credits-link"><a href="/credits/">画像について</a></span>
+  </footer>
+
+</body>
+</html>

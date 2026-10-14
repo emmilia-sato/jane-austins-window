@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emmilia-sato.vercel.app/sitemap.xml
