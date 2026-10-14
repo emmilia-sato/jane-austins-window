@@ -90,11 +90,12 @@
     <!--
       記事一覧（新しい順）。新しい記事は <ol class="note-list"> のすぐ下（先頭）に
       <li class="note-item"> ... </li> のブロックを1つ追加してください。
+      サムネイルと見出しは、どちらも同じ記事へのリンクにします。
       サムネイル画像がない場合は /assets/img/placeholder.svg を指定できます。
     -->
     <ol class="note-list" reversed>
       <li class="note-item">
-        <a class="note-thumb" href="/notes/sample-article/" tabindex="-1" aria-hidden="true">
+        <a class="note-thumb" href="/notes/sample-article/" aria-label="研究ノートの表示例">
           <picture>
             <source type="image/webp" srcset="/assets/img/sample-welbeck-repton-480.webp" />
             <img src="/assets/img/sample-welbeck-repton-480.jpg" width="480" height="256" loading="lazy" decoding="async" alt="" />
@@ -102,8 +103,8 @@
         </a>
         <div>
           <time datetime="2026-10-11">2026年10月11日</time>
-          <h2><a href="/notes/sample-article/">サンプル記事：研究ノートの表示例</a><span class="label">サンプル</span></h2>
-          <p>これは研究ノート欄の表示を確認するためのサンプル記事です。実際の記事に差し替えてください。</p>
+          <h2><a href="/notes/sample-article/">研究ノートの表示例</a></h2>
+          <p>これは研究ノート欄の表示を確認するための記事です。実際の記事に差し替えてください。</p>
           <a class="more" href="/notes/sample-article/">続きを読む &rarr;</a>
         </div>
       </li>

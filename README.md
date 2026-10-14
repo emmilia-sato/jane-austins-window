@@ -11,7 +11,7 @@ credits/index.html          「画像について」ページ（フッターか�
 notes/index.html            研究ノート一覧ページ（新しい順）
 notes/_template/index.html  記事ページのテンプレート（コピー元。公開用ではありません）
 notes/sample-article/       サンプル記事（差し替え・削除してください）
-.vercelignore               README とテンプレートをデプロイ対象から外す設定
+.vercelignore               README・テンプレート・STRATEGY_ROADMAP.md・generate_site.py・archive/ をデプロイ対象から外す設定
 ```
 
 ## 新しい研究ノートを追加する手順
@@ -28,9 +28,10 @@ notes/sample-article/       サンプル記事（差し替え・削除してく�
    - `【記事タイトル】` を2か所（`<title>` と `<h1>`）置き換える
    - `【記事の短い説明】`（meta description）を置き換える
    - 日付：`datetime="YYYY-MM-DD"` と表示用の `YYYY年M月D日` を置き換える
-   - ヘッダー画像：`<figure class="article-header-figure">` の `src`・`alt`・キャプションを差し替える（使わない場合は figure ごと削除）
-   - 本文中の図版：`<figure class="framed">`（中央）または `<figure class="framed float-right">`（右寄せ）。`loading="lazy"` を付ける
+   - ヘッダー画像：`<figure class="article-header-figure">` の `href`・`src`・`alt`・キャプションを差し替える（使わない場合は figure ごと削除）。画像クリックで拡大表示になります
+   - 本文中の図版：`<figure class="framed">`（中央）または `<figure class="framed float-right">`（右寄せ）。`a.zoomable` の `href` は拡大する画像、`img` には `loading="lazy"` を付ける
    - 本文・小見出し・引用・参考文献を書く（不要なブロックは削除）
+   - 末尾の移動ナビ：`← 研究ノート一覧へ` は残す。前の記事・次の記事は実在する記事だけ残し、無い側のリンクは削除する
    - 公開する記事では `<meta name="robots" content="noindex" />` の行を削除する
 
 3. **一覧ページに追加する**（`notes/index.html`）
@@ -38,7 +39,7 @@ notes/sample-article/       サンプル記事（差し替え・削除してく�
 
    ```html
    <li class="note-item">
-     <a class="note-thumb" href="/notes/2026-11-my-note/" tabindex="-1" aria-hidden="true">
+     <a class="note-thumb" href="/notes/2026-11-my-note/" aria-label="記事タイトル">
        <img src="/assets/img/サムネイル画像.jpg" width="480" height="360" loading="lazy" decoding="async" alt="" />
      </a>
      <div>
