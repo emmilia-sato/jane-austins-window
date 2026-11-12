@@ -33,6 +33,106 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
   <link rel="preload" as="image" href="/assets/img/hero-royal-crescent.webp" imagesrcset="/assets/img/hero-royal-crescent-800.webp 800w, /assets/img/hero-royal-crescent.webp 1600w" imagesizes="100vw" type="image/webp" fetchpriority="high" />
   <link rel="stylesheet" href="/assets/site.css" />
+
+  <style>
+    /* Interactive Window Section */
+    .interactive-window-section {
+      margin: 3.5rem auto 2.5rem;
+      max-width: 820px;
+      text-align: center;
+    }
+    .window-card {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 14px 42px rgba(24, 20, 16, 0.16);
+      border: 1px solid #dcd5c9;
+      background: #070913;
+    }
+    .window-card canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 760 / 480;
+      cursor: pointer;
+    }
+    .window-hud {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      right: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      pointer-events: none;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .window-title-badge {
+      background: rgba(10, 12, 24, 0.75);
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      padding: 5px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      color: #f6e3ba;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+    }
+    .window-controls {
+      display: flex;
+      gap: 6px;
+      pointer-events: auto;
+      flex-wrap: wrap;
+    }
+    .window-controls button {
+      background: rgba(18, 22, 38, 0.82);
+      color: #f3e5ab;
+      border: 1px solid rgba(212, 175, 55, 0.45);
+      padding: 5px 10px;
+      border-radius: 14px;
+      font-family: inherit;
+      font-size: 11.5px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      backdrop-filter: blur(4px);
+    }
+    .window-controls button:hover, .window-controls button.active {
+      background: rgba(212, 175, 55, 0.32);
+      border-color: #f6e3ba;
+      transform: translateY(-1px);
+    }
+    .window-quote-bar {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(10, 12, 22, 0.82);
+      border: 1px solid rgba(212, 175, 55, 0.4);
+      padding: 5px 16px;
+      border-radius: 18px;
+      font-size: 11.5px;
+      color: #f6e3ba;
+      letter-spacing: 0.03em;
+      white-space: nowrap;
+      pointer-events: none;
+      backdrop-filter: blur(6px);
+      max-width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .window-caption {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #72685a;
+      font-style: italic;
+    }
+    @media (max-width: 640px) {
+      .window-hud { top: 8px; left: 8px; right: 8px; }
+      .window-title-badge { font-size: 11px; padding: 4px 8px; }
+      .window-controls button { font-size: 10.5px; padding: 4px 7px; }
+      .window-quote-bar { font-size: 10.5px; padding: 4px 10px; }
+    }
+  </style>
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -110,6 +210,26 @@
     <p class="summary">
       18世紀英国文学（ジェイン・オースティン等）に関する専門的な研究書籍および関連文化資料のデジタル出版・販売、ならびにオンラインでの研究成果の発信を行っています。
     </p>
+
+    <!-- Interactive Regency Window -->
+    <section class="interactive-window-section" aria-label="ジェイン・オースティンの窓 — インタラクティブ">
+      <div class="window-card">
+        <canvas id="regencyCanvas" width="760" height="480"></canvas>
+        <div class="window-hud">
+          <div class="window-title-badge">✦ Jane Austen's Window ✦</div>
+          <div class="window-controls">
+            <button id="btn-scene0" class="active" onclick="windowSetScene(0)">星空のペンバリー</button>
+            <button id="btn-scene1" onclick="windowSetScene(1)">ネザーフィールド舞踏会</button>
+            <button id="btn-scene2" onclick="windowSetScene(2)">薔薇色の夜明け</button>
+            <button id="btn-music" onclick="windowToggleAutoPlay()">♪ 自動演奏: OFF</button>
+          </div>
+        </div>
+        <div class="window-quote-bar" id="windowQuote">
+          窓の外をクリック・なぞると、チェンバロの音色とともに流れ星と光の粉が舞います
+        </div>
+      </div>
+      <p class="window-caption">窓辺をクリックすると、リージェンシー時代のチェンバロの音色が響きます。</p>
+    </section>
 
     <div class="about-grid">
       <figure class="framed">
@@ -218,6 +338,570 @@
     © Emilia — Jane Austen's Window
     <span class="credits-link"><a href="/credits/">画像について</a></span>
   </footer>
+
+  <script>
+  (() => {
+    const canvas = document.getElementById('regencyCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const W = canvas.width, H = canvas.height;
+
+    let scene = 0;
+    let t = 0;
+    let mouse = { x: W * 0.5, y: H * 0.42, active: false };
+    let stars = [];
+    let fireflies = [];
+    let meteors = [];
+    let ripples = [];
+    let petals = [];
+
+    const quotes = [
+      '“My courage always rises at every attempt to intimidate me.” — Elizabeth Bennet',
+      '“You have bewitched me, body and soul...” — Pride &amp; Prejudice',
+      '“There is nothing like staying at home for real comfort.” — Jane Austen',
+      '“To sit in the shade on a fine day, and look upon verdure, is the most perfect refreshment.”',
+      '“I declare after all there is no enjoyment like reading!”'
+    ];
+    let quoteIdx = 0;
+
+    for (let i = 0; i < 160; i++) {
+      stars.push({
+        x: Math.random() * W,
+        y: Math.random() * (H * 0.72),
+        r: Math.random() * 1.7 + 0.4,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.03 + 0.01,
+        hue: 40 + Math.random() * 30
+      });
+    }
+
+    for (let i = 0; i < 55; i++) {
+      fireflies.push({
+        x: 140 + Math.random() * (W - 280),
+        y: 70 + Math.random() * (H - 160),
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        r: Math.random() * 2.4 + 1.2,
+        alpha: Math.random(),
+        hue: 45 + Math.random() * 25
+      });
+    }
+
+    let audioCtx = null;
+    const scaleFreqs = [
+      293.66, 329.63, 369.99, 392.00, 440.00, 493.88, 554.37,
+      587.33, 659.25, 739.99, 783.99, 880.00, 987.77, 1108.73
+    ];
+    const melodyPattern = [
+      [7, 0], [9, 4], [11, 2], [9, 4], [12, 5], [11, 4], [9, 2], [7, 0],
+      [6, 4], [4, 2], [6, 1], [7, 0], [9, 2], [6, 4], [7, 0]
+    ];
+    let melodyStep = 0;
+    let autoPlayTimer = null;
+
+    function ensureAudio() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        audioCtx = new AC();
+      }
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playHarpsichordNote(freq, delay, vol) {
+      ensureAudio();
+      delay = delay || 0;
+      vol = vol || 0.14;
+      const now = audioCtx.currentTime + delay;
+      const osc1 = audioCtx.createOscillator();
+      const osc2 = audioCtx.createOscillator();
+      const filter = audioCtx.createBiquadFilter();
+      const gain = audioCtx.createGain();
+
+      osc1.type = 'sawtooth';
+      osc2.type = 'triangle';
+      osc1.frequency.setValueAtTime(freq, now);
+      osc2.frequency.setValueAtTime(freq * 2, now);
+
+      filter.type = 'lowpass';
+      filter.frequency.setValueAtTime(freq * 6, now);
+      filter.frequency.exponentialRampToValueAtTime(freq * 1.8, now + 0.9);
+
+      gain.gain.setValueAtTime(0.0001, now);
+      gain.gain.linearRampToValueAtTime(vol, now + 0.012);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.35);
+
+      osc1.connect(filter);
+      osc2.connect(filter);
+      filter.connect(gain);
+      gain.connect(audioCtx.destination);
+
+      osc1.start(now);
+      osc2.start(now);
+      osc1.stop(now + 1.4);
+      osc2.stop(now + 1.4);
+    }
+
+    function triggerChordAndMeteor(x, y) {
+      const pair = melodyPattern[melodyStep % melodyPattern.length];
+      melodyStep++;
+      playHarpsichordNote(scaleFreqs[pair[0]], 0, 0.13);
+      playHarpsichordNote(scaleFreqs[pair[1]], 0.06, 0.09);
+
+      meteors.push({
+        x: x,
+        y: y,
+        vx: (Math.random() > 0.5 ? 1 : -1) * (3.5 + Math.random() * 2.5),
+        vy: 1.5 + Math.random() * 2.0,
+        life: 1.0,
+        trail: []
+      });
+
+      ripples.push({ x: x, y: y, r: 4, alpha: 0.9 });
+
+      for (let i = 0; i < 10; i++) {
+        const ang = (Math.PI * 2 * i) / 10 + Math.random() * 0.4;
+        const spd = 1 + Math.random() * 2.4;
+        petals.push({
+          x: x, y: y,
+          vx: Math.cos(ang) * spd,
+          vy: Math.sin(ang) * spd - 0.5,
+          rot: Math.random() * Math.PI * 2,
+          vrot: (Math.random() - 0.5) * 0.1,
+          life: 1.0,
+          size: 3 + Math.random() * 3
+        });
+      }
+    }
+
+    window.windowSetScene = function(s) {
+      scene = s;
+      document.querySelectorAll('.window-controls button').forEach((b, i) => {
+        if (i < 3) b.classList.toggle('active', i === s);
+      });
+      quoteIdx = (quoteIdx + 1) % quotes.length;
+      document.getElementById('windowQuote').textContent = quotes[quoteIdx];
+      triggerChordAndMeteor(W * 0.5, H * 0.35);
+    };
+
+    window.windowToggleAutoPlay = function() {
+      const btn = document.getElementById('btn-music');
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+        btn.textContent = '♪ 自動演奏: OFF';
+        btn.classList.remove('active');
+      } else {
+        ensureAudio();
+        btn.textContent = '♪ 自動演奏: ON';
+        btn.classList.add('active');
+        triggerChordAndMeteor(240 + Math.random() * 280, 120 + Math.random() * 140);
+        autoPlayTimer = setInterval(() => {
+          const rx = 200 + Math.random() * 360;
+          const ry = 100 + Math.random() * 180;
+          triggerChordAndMeteor(rx, ry);
+        }, 520);
+      }
+    };
+
+    canvas.addEventListener('pointerdown', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) * (W / rect.width);
+      const y = (e.clientY - rect.top) * (H / rect.height);
+      mouse.x = x; mouse.y = y; mouse.active = true;
+      triggerChordAndMeteor(x, y);
+      quoteIdx = (quoteIdx + 1) % quotes.length;
+      document.getElementById('windowQuote').textContent = quotes[quoteIdx];
+    });
+
+    canvas.addEventListener('pointermove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = (e.clientX - rect.left) * (W / rect.width);
+      mouse.y = (e.clientY - rect.top) * (H / rect.height);
+      mouse.active = true;
+      if (Math.random() < 0.28) {
+        petals.push({
+          x: mouse.x,
+          y: mouse.y,
+          vx: (Math.random() - 0.5) * 1.2,
+          vy: (Math.random() - 0.5) * 1.2 - 0.3,
+          rot: Math.random() * Math.PI,
+          vrot: 0.06,
+          life: 0.85,
+          size: 2.2 + Math.random() * 2
+        });
+      }
+    });
+
+    function drawSky() {
+      const grad = ctx.createLinearGradient(0, 0, 0, H);
+      if (scene === 0) {
+        grad.addColorStop(0, '#050816');
+        grad.addColorStop(0.55, '#101b3b');
+        grad.addColorStop(0.85, '#1d2d4e');
+        grad.addColorStop(1, '#0d1524');
+      } else if (scene === 1) {
+        grad.addColorStop(0, '#120a28');
+        grad.addColorStop(0.5, '#2b1742');
+        grad.addColorStop(0.82, '#693648');
+        grad.addColorStop(1, '#261423');
+      } else {
+        grad.addColorStop(0, '#1a2342');
+        grad.addColorStop(0.45, '#4b3b60');
+        grad.addColorStop(0.76, '#b86b77');
+        grad.addColorStop(0.92, '#eab688');
+        grad.addColorStop(1, '#2c3531');
+      }
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.save();
+      for (let b = 0; b < 3; b++) {
+        ctx.beginPath();
+        for (let x = 120; x <= W - 120; x += 12) {
+          const y = 130 + b * 55 + Math.sin(x * 0.015 + t * 0.8 + b) * 22 + Math.cos(x * 0.008 - t * 0.5) * 14;
+          if (x === 120) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+        ctx.strokeStyle = scene === 2
+          ? 'rgba(255, 210, 175, ' + (0.07 - b * 0.015) + ')'
+          : 'rgba(180, 210, 255, ' + (0.06 - b * 0.015) + ')';
+        ctx.lineWidth = 18;
+        ctx.lineCap = 'round';
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      const moonX = scene === 2 ? W * 0.5 : W * 0.62;
+      const moonY = scene === 2 ? H * 0.62 : H * 0.24;
+      const moonGlow = ctx.createRadialGradient(moonX, moonY, 4, moonX, moonY, 95);
+      if (scene === 2) {
+        moonGlow.addColorStop(0, 'rgba(255, 240, 200, 0.95)');
+        moonGlow.addColorStop(0.3, 'rgba(255, 190, 130, 0.45)');
+        moonGlow.addColorStop(1, 'rgba(255, 160, 120, 0)');
+      } else {
+        moonGlow.addColorStop(0, 'rgba(255, 250, 225, 0.95)');
+        moonGlow.addColorStop(0.28, 'rgba(240, 220, 165, 0.35)');
+        moonGlow.addColorStop(1, 'rgba(240, 220, 165, 0)');
+      }
+      ctx.fillStyle = moonGlow;
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, 95, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fff9e6';
+      ctx.beginPath();
+      ctx.arc(moonX, moonY, 22, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function drawLandscape() {
+      const lakeTop = H * 0.72;
+
+      ctx.fillStyle = scene === 2 ? '#2b2338' : '#0b1326';
+      ctx.beginPath();
+      ctx.moveTo(0, lakeTop);
+      for (let x = 0; x <= W; x += 20) {
+        const y = lakeTop - 32 - Math.sin(x * 0.009 + 1.2) * 22 - Math.cos(x * 0.022) * 10;
+        ctx.lineTo(x, y);
+      }
+      ctx.lineTo(W, lakeTop);
+      ctx.closePath();
+      ctx.fill();
+
+      const mx = 275, my = lakeTop - 52;
+      ctx.fillStyle = '#070b16';
+      ctx.fillRect(mx, my, 96, 36);
+      ctx.fillRect(mx + 24, my - 12, 48, 12);
+      ctx.beginPath();
+      ctx.moveTo(mx + 20, my - 12);
+      ctx.lineTo(mx + 48, my - 24);
+      ctx.lineTo(mx + 76, my - 12);
+      ctx.closePath();
+      ctx.fill();
+
+      const winAlpha = scene === 1 ? 0.95 : 0.65;
+      ctx.fillStyle = 'rgba(255, 205, 110, ' + winAlpha + ')';
+      for (let row = 0; row < 2; row++) {
+        for (let col = 0; col < 7; col++) {
+          ctx.fillRect(mx + 10 + col * 12, my + 6 + row * 13, 5, 8);
+        }
+      }
+
+      const lakeGrad = ctx.createLinearGradient(0, lakeTop, 0, H);
+      lakeGrad.addColorStop(0, scene === 2 ? '#4d3347' : '#091224');
+      lakeGrad.addColorStop(1, '#040710');
+      ctx.fillStyle = lakeGrad;
+      ctx.fillRect(0, lakeTop, W, H - lakeTop);
+
+      const reflectX = scene === 2 ? W * 0.5 : W * 0.62;
+      for (let i = 0; i < 28; i++) {
+        const wy = lakeTop + 6 + i * 4.2;
+        const spread = 12 + i * 1.6;
+        const wx = reflectX + Math.sin(t * 2 + i * 0.7) * 8;
+        ctx.fillStyle = scene === 2
+          ? 'rgba(255, 200, 150, ' + (0.45 - i * 0.012) + ')'
+          : 'rgba(245, 225, 165, ' + (0.4 - i * 0.011) + ')';
+        ctx.fillRect(wx - spread * 0.5, wy, spread, 1.8);
+      }
+
+      for (let col = 0; col < 7; col++) {
+        ctx.fillStyle = 'rgba(255, 195, 95, ' + (winAlpha * 0.35) + ')';
+        ctx.fillRect(mx + 10 + col * 12 + Math.sin(t * 3 + col) * 1.5, lakeTop + 8, 4, 18);
+      }
+    }
+
+    function drawParticles() {
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        const tw = 0.35 + 0.65 * Math.sin(t * 2.2 + s.phase);
+        ctx.fillStyle = 'hsla(' + s.hue + ', 80%, 90%, ' + (tw * (scene === 2 ? 0.55 : 0.95)) + ')';
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (let i = meteors.length - 1; i >= 0; i--) {
+        const m = meteors[i];
+        m.trail.push({ x: m.x, y: m.y });
+        if (m.trail.length > 16) m.trail.shift();
+        m.x += m.vx;
+        m.y += m.vy;
+        m.life -= 0.022;
+
+        if (m.trail.length > 1) {
+          ctx.beginPath();
+          ctx.moveTo(m.trail[0].x, m.trail[0].y);
+          for (let k = 0; k < m.trail.length; k++) ctx.lineTo(m.trail[k].x, m.trail[k].y);
+          ctx.strokeStyle = 'rgba(255, 238, 185, ' + m.life + ')';
+          ctx.lineWidth = 2.2;
+          ctx.stroke();
+        }
+        ctx.fillStyle = 'rgba(255, 250, 220, ' + m.life + ')';
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, 2.8, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (m.life <= 0) meteors.splice(i, 1);
+      }
+
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i];
+        rp.r += 1.8;
+        rp.alpha -= 0.022;
+        ctx.strokeStyle = 'rgba(245, 215, 130, ' + rp.alpha + ')';
+        ctx.lineWidth = 1.2;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+        ctx.stroke();
+        if (rp.alpha <= 0) ripples.splice(i, 1);
+      }
+
+      for (let i = 0; i < fireflies.length; i++) {
+        const f = fireflies[i];
+        if (mouse.active) {
+          const dx = mouse.x - f.x;
+          const dy = mouse.y - f.y;
+          const dist = Math.hypot(dx, dy);
+          if (dist < 180 && dist > 5) {
+            f.vx += (dx / dist) * 0.035;
+            f.vy += (dy / dist) * 0.035;
+          }
+        }
+        f.vx += (Math.random() - 0.5) * 0.06;
+        f.vy += (Math.random() - 0.5) * 0.06;
+        f.vx *= 0.96;
+        f.vy *= 0.96;
+        f.x += f.vx;
+        f.y += f.vy;
+
+        if (f.x < 130) f.x = W - 130;
+        if (f.x > W - 130) f.x = 130;
+        if (f.y < 60) f.y = H - 90;
+        if (f.y > H - 90) f.y = 60;
+
+        const glow = 0.4 + 0.6 * Math.sin(t * 3 + f.x * 0.05);
+        const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 4.5);
+        g.addColorStop(0, 'hsla(' + f.hue + ', 95%, 80%, ' + glow + ')');
+        g.addColorStop(1, 'hsla(' + f.hue + ', 95%, 60%, 0)');
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.r * 4.5, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      for (let i = petals.length - 1; i >= 0; i--) {
+        const p = petals[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.015;
+        p.rot += p.vrot;
+        p.life -= 0.018;
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = scene === 2
+          ? 'rgba(255, 195, 205, ' + p.life + ')'
+          : 'rgba(255, 225, 145, ' + p.life + ')';
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        if (p.life <= 0) petals.splice(i, 1);
+      }
+    }
+
+    function drawRegencyWindowFrame() {
+      ctx.save();
+
+      ctx.fillStyle = '#0c0a0e';
+      ctx.beginPath();
+      ctx.rect(0, 0, W, H);
+
+      const winL = 135, winR = W - 135, winT = 175, winB = H - 52;
+      const cx = W * 0.5, rad = (winR - winL) * 0.5;
+      ctx.moveTo(winL, winB);
+      ctx.lineTo(winR, winB);
+      ctx.lineTo(winR, winT);
+      ctx.arc(cx, winT, rad, 0, Math.PI, true);
+      ctx.lineTo(winL, winB);
+      ctx.fill('evenodd');
+
+      const candleX = winR - 55, candleY = winB - 18;
+      const flicker = Math.sin(t * 11) * 1.5 + Math.cos(t * 7) * 1.2;
+      const roomGlow = ctx.createRadialGradient(candleX, candleY - 22, 4, candleX, candleY - 22, 230);
+      roomGlow.addColorStop(0, 'rgba(255, 190, 95, 0.32)');
+      roomGlow.addColorStop(0.5, 'rgba(210, 125, 55, 0.10)');
+      roomGlow.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      ctx.fillStyle = roomGlow;
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.fillStyle = '#241521';
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+      ctx.lineWidth = 2;
+
+      ctx.beginPath();
+      ctx.moveTo(winL - 25, 20);
+      ctx.quadraticCurveTo(winL + 42, H * 0.45, winL - 8, winB);
+      ctx.lineTo(winL - 70, winB);
+      ctx.lineTo(winL - 70, 20);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.moveTo(winR + 25, 20);
+      ctx.quadraticCurveTo(winR - 42, H * 0.45, winR + 8, winB);
+      ctx.lineTo(winR + 70, winB);
+      ctx.lineTo(winR + 70, 20);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.strokeStyle = '#1b161c';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.arc(cx, winT, rad, Math.PI, 0, false);
+      ctx.lineTo(winR, winB);
+      ctx.lineTo(winL, winB);
+      ctx.closePath();
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.35)';
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+
+      ctx.strokeStyle = 'rgba(28, 23, 30, 0.88)';
+      ctx.lineWidth = 3.5;
+
+      ctx.beginPath();
+      ctx.moveTo(winL, winT);
+      ctx.lineTo(winR, winT);
+      ctx.moveTo(winL, (winT + winB) * 0.52);
+      ctx.lineTo(winR, (winT + winB) * 0.52);
+      const paneW = (winR - winL) / 3;
+      ctx.moveTo(winL + paneW, winT);
+      ctx.lineTo(winL + paneW, winB);
+      ctx.moveTo(winL + paneW * 2, winT);
+      ctx.lineTo(winL + paneW * 2, winB);
+
+      for (let a = 1; a <= 5; a++) {
+        const ang = Math.PI + (Math.PI * a) / 6;
+        ctx.moveTo(cx, winT);
+        ctx.lineTo(cx + Math.cos(ang) * rad, winT + Math.sin(ang) * rad);
+      }
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(cx, winT, rad * 0.48, Math.PI, 0, false);
+      ctx.stroke();
+
+      const sillGrad = ctx.createLinearGradient(0, winB - 4, 0, H);
+      sillGrad.addColorStop(0, '#2c1e18');
+      sillGrad.addColorStop(0.25, '#1b120e');
+      sillGrad.addColorStop(1, '#090606');
+      ctx.fillStyle = sillGrad;
+      ctx.fillRect(85, winB - 2, W - 170, H - winB + 2);
+      ctx.strokeStyle = 'rgba(212, 175, 55, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.strokeRect(85, winB - 2, W - 170, 4);
+
+      const bx = winL + 58, by = winB - 4;
+      ctx.fillStyle = '#e8dcc4';
+      ctx.beginPath();
+      ctx.moveTo(bx, by);
+      ctx.quadraticCurveTo(bx - 24, by - 8, bx - 46, by - 2);
+      ctx.lineTo(bx - 42, by - 12);
+      ctx.quadraticCurveTo(bx - 20, by - 17, bx, by - 8);
+      ctx.quadraticCurveTo(bx + 20, by - 17, bx + 42, by - 12);
+      ctx.lineTo(bx + 46, by - 2);
+      ctx.quadraticCurveTo(bx + 24, by - 8, bx, by);
+      ctx.fill();
+
+      ctx.strokeStyle = '#f5ebd6';
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(bx + 18, by - 4);
+      ctx.quadraticCurveTo(bx + 36, by - 28, bx + 52, by - 46);
+      ctx.stroke();
+
+      ctx.fillStyle = '#c59b38';
+      ctx.fillRect(candleX - 10, winB - 6, 20, 5);
+      ctx.fillRect(candleX - 3, winB - 18, 6, 12);
+      ctx.fillStyle = '#f3ead8';
+      ctx.fillRect(candleX - 3.5, winB - 38, 7, 20);
+
+      const flameY = winB - 45;
+      const fg = ctx.createRadialGradient(candleX + flicker * 0.3, flameY, 1, candleX, flameY, 34);
+      fg.addColorStop(0, 'rgba(255, 250, 210, 0.95)');
+      fg.addColorStop(0.35, 'rgba(255, 175, 60, 0.45)');
+      fg.addColorStop(1, 'rgba(255, 140, 30, 0)');
+      ctx.fillStyle = fg;
+      ctx.beginPath();
+      ctx.arc(candleX, flameY, 34, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.fillStyle = '#fff6c5';
+      ctx.beginPath();
+      ctx.moveTo(candleX, flameY - 10 + flicker * 0.4);
+      ctx.quadraticCurveTo(candleX + 5, flameY, candleX, flameY + 5);
+      ctx.quadraticCurveTo(candleX - 5, flameY, candleX, flameY - 10 + flicker * 0.4);
+      ctx.fill();
+
+      ctx.restore();
+    }
+
+    function animate() {
+      t += 0.016;
+      drawSky();
+      drawLandscape();
+      drawParticles();
+      drawRegencyWindowFrame();
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  })();
+  </script>
 
 </body>
 </html>
