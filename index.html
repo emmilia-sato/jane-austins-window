@@ -37,7 +37,7 @@
   <style>
     /* Interactive Window Section */
     .interactive-window-section {
-      margin: 3.5rem auto 2.5rem;
+      margin: 1.5rem auto 3rem;
       max-width: 820px;
       text-align: center;
     }
@@ -211,26 +211,6 @@
       18世紀英国文学（ジェイン・オースティン等）に関する専門的な研究書籍および関連文化資料のデジタル出版・販売、ならびにオンラインでの研究成果の発信を行っています。
     </p>
 
-    <!-- Interactive Regency Window -->
-    <section class="interactive-window-section" aria-label="ジェイン・オースティンの窓 — インタラクティブ">
-      <div class="window-card">
-        <canvas id="regencyCanvas" width="760" height="480"></canvas>
-        <div class="window-hud">
-          <div class="window-title-badge">✦ Jane Austen's Window ✦</div>
-          <div class="window-controls">
-            <button id="btn-scene0" class="active" onclick="windowSetScene(0)">星空のペンバリー</button>
-            <button id="btn-scene1" onclick="windowSetScene(1)">ネザーフィールド舞踏会</button>
-            <button id="btn-scene2" onclick="windowSetScene(2)">薔薇色の夜明け</button>
-            <button id="btn-music" onclick="windowToggleAutoPlay()">♪ 自動演奏: OFF</button>
-          </div>
-        </div>
-        <div class="window-quote-bar" id="windowQuote">
-          窓の外をクリック・なぞると、チェンバロの音色とともに流れ星と光の粉が舞います
-        </div>
-      </div>
-      <p class="window-caption">窓辺をクリックすると、リージェンシー時代のチェンバロの音色が響きます。</p>
-    </section>
-
     <div class="about-grid">
       <figure class="framed">
         <a class="figure-link" href="/credits/#jane-austen">
@@ -332,6 +312,30 @@
     <div class="notes-link">
       <a href="/notes/">研究ノートを読む &rarr;</a>
     </div>
+
+    <p class="ornament" aria-hidden="true">❦ ❦ ❦</p>
+    <h2 class="section-title">夜の窓辺</h2>
+    <p class="section-sub">Evening at the Window</p>
+
+    <!-- Interactive Regency Window -->
+    <section class="interactive-window-section" aria-label="ジェイン・オースティンの窓 — インタラクティブ">
+      <div class="window-card">
+        <canvas id="regencyCanvas" width="760" height="480"></canvas>
+        <div class="window-hud">
+          <div class="window-title-badge">✦ Jane Austen's Window ✦</div>
+          <div class="window-controls">
+            <button id="btn-scene0" class="active" onclick="windowSetScene(0)">星空のペンバリー</button>
+            <button id="btn-scene1" onclick="windowSetScene(1)">ネザーフィールド舞踏会</button>
+            <button id="btn-scene2" onclick="windowSetScene(2)">薔薇色の夜明け</button>
+            <button id="btn-music" onclick="windowToggleAutoPlay()">♪ 自動演奏: OFF</button>
+          </div>
+        </div>
+        <div class="window-quote-bar" id="windowQuote">
+          窓の外をクリック・なぞると、チェンバロの音色とともに流れ星と光の粉が舞います
+        </div>
+      </div>
+      <p class="window-caption">窓辺をクリックすると、リージェンシー時代のチェンバロの音色が響きます。</p>
+    </section>
   </main>
 
   <footer class="footer">
