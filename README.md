@@ -8,6 +8,7 @@ assets/site.css             サイト共通のスタイル（全ページ）
 assets/img/                 画像（JPEG と WebP）。出典・ライセンスは assets/img/CREDITS.md
 assets/img/placeholder.svg  テンプレート用の仮画像
 credits/index.html          「画像について」ページ（フッターからリンク）
+media/persuasion/           『説得』（Persuasion）に関連する詩の朗読（動画・音声・字幕・本文）
 notes/index.html            研究ノート一覧ページ（新しい順）
 notes/_template/index.html  記事ページのテンプレート（コピー元。公開用ではありません）
 notes/sample-article/       サンプル記事（差し替え・削除してください）
